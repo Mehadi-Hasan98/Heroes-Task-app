@@ -1,52 +1,101 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 const Home = () => {
   const { register, handleSubmit, reset } = useForm();
-    const [tasks, setTasks] = useState([]);
 
-    const onSubmitFrom = data => {
-      const url = 'http://localhost:5000/';
-      fetch(url, {
-          method: 'POST',
-          headers: {
-              'content-type': 'application/json'
-          },
-          body: JSON.stringify(data)
-      })
-      
-      .then(res=> res.json())
-      .then(result => 
-        console.log(result))
-        reset();
-  }
+  //   Post a Task =============
+  const onSubmitFrom = (data) => {
+    fetch("http://localhost:5000/task", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        toast.success("Your Task Succesfull Added");
+      });
+    reset();
+  };
+  // Get All Data =============
 
-    useEffect( () => {
-        fetch('')
-        .then(res => res.json())
-        .then(data => setTasks(data))
-    }, [])
+  const [taskitems, setTaskItems] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/task")
+      .then((res) => res.json())
+      .then((data) => setTaskItems(data));
+  }, []);
+  const reverse = [...taskitems].reverse();
 
+  const handleCompelete = (task) => {
+    const items = {
+      complete: task,
+    };
+    fetch("http://localhost:5000/complete", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(items),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        toast.success("Task Compelete");
+      });
+  };
+
+  // Update Single Data 
+const navigate = useNavigate();
+const navigateToDetails = (id) => {
+  navigate(`/update/${id}`);
+};
   return (
-    <div>
-      <h1 className="text-4xl text-center font-bold font-mono mt-20 mb-20">
-        Home
-      </h1>
+    <div className="w-4/12 mx-auto my-40 mt-60 font-mono">
       <form
-          className="flex flex-col w-80 mx-auto mt-20 form"
-          onSubmit={handleSubmit(onSubmitFrom)}
-        >
-          <input
-            className="w-80 rounded border-2 border-primary  mb-5 py-4 px-10"
-            placeholder="Description"
-            type="text"
-            {...register("description", { required: true })}
-          />
-           <input
-            className="product-btn rounded bg-accent py-2 mb-16 text-white text-xl"
-            type="Submit"
-            value="Enter"
-          />
-       </form>
+        onSubmit={handleSubmit(onSubmitFrom)}
+        className="flex w-11/12 mx-auto"
+      >
+        <input
+          className="w-80 rounded border-2 text-xl text-black-600 border-pink-600 input input-bordered mb-5 py-4 pr-4"
+          placeholder="Enter Your Task"
+          type="text"
+          {...register("task", { required: true })}
+        />
+        <input
+          class="btn btn-outline bg-gray-600 text-white ml-2 rounded"
+          type="Submit"
+          value="Submit"
+        />
+      </form>
+      {reverse.map((item) => (
+        <div class="card mt-10 bg-base-100 shadow-xl">
+          <div class="card-body grid grid-cols-3 items-center">
+            <div>
+              <input
+                onClick={() => handleCompelete(item.task)}
+                type="checkbox"
+                name="terms"
+                id="terms"
+              />
+            </div>
+            <div>
+              <p>{item.task}</p>
+            </div>
+            <div class="card-actions justify-end">
+              <button
+                onClick={() => navigateToDetails(item._id)}
+                class="btn hover:bg-transparent hover:text-emerald-600 hover:border-2 hover:border-emerald-600 bg-emerald-500 text-white ml-2 rounded"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
