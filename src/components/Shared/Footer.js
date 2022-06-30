@@ -1,7 +1,7 @@
 
 const Footer = () => {
     return (
-        <footer className="footer items-center p-4 text-zinc-300 bg-neutral text-neutral-content">
+        <footer className="footer items-center p-8 text-zinc-300 bg-neutral text-neutral-content">
   <div className="items-center grid-flow-col">
     <p>Copyright © 2022 - All right reserved by Heroes Task App</p>
   </div> 
