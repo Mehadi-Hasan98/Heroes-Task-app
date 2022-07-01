@@ -13,11 +13,11 @@ import UpdateTasks from "./components/UpdateTasks/UpdateTasks";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
-        <Route path="updatetasks/:id" element={<UpdateTasks/>}></Route>
+        <Route path="update/:id" element={<UpdateTasks/>}></Route>
         <Route path="completedtasks" element={<CompletedTasks/>}></Route>
         <Route path="todo" element={<Todo/>}></Route>
         <Route path="calender" element={<Calender/>}></Route>

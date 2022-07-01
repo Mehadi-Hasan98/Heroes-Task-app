@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Home = () => {
+  
+        
   const { register, handleSubmit, reset } = useForm();
 
   //   Post a Task =============
   const onSubmitFrom = (data) => {
-    fetch("http://localhost:5000/task", {
+    fetch("https://vast-mesa-79038.herokuapp.com/task", {
       method: "POST",
       headers: {
         "content-type": "application/json; charset=UTF-8",
@@ -25,7 +27,7 @@ const Home = () => {
 
   const [taskitems, setTaskItems] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/task")
+    fetch("https://vast-mesa-79038.herokuapp.com/task")
       .then((res) => res.json())
       .then((data) => setTaskItems(data));
   }, []);
@@ -35,7 +37,7 @@ const Home = () => {
     const items = {
       complete: task,
     };
-    fetch("http://localhost:5000/complete", {
+    fetch("https://vast-mesa-79038.herokuapp.com/complete", {
       method: "POST",
       headers: {
         "content-type": "application/json; charset=UTF-8",
@@ -54,26 +56,28 @@ const navigateToDetails = (id) => {
   navigate(`/update/${id}`);
 };
   return (
-    <div className="w-4/12 mx-auto my-40 mt-60 font-mono">
+    
+    <div className="my-40 mt-60 font-mono">
+      <h1 className="text-3xl font-bold font-mono mb-10 md:mx-auto text-center sm:ml-20">Add Your Daily Tasks</h1>
       <form
         onSubmit={handleSubmit(onSubmitFrom)}
-        className="flex w-11/12 mx-auto"
+        className="flex w-11/12 sm: mx-auto justify-center"
       >
         <input
-          className="w-80 rounded border-2 text-xl text-black-600 border-pink-600 input input-bordered mb-5 py-4 pr-4"
+          className="w-80 rounded border-2 text-xl text-rose-600 border-pink-600 input input-bordered mb-5 py-4"
           placeholder="Enter Your Task"
           type="text"
           {...register("task", { required: true })}
         />
         <input
-          class="btn btn-outline bg-gray-600 text-white ml-2 rounded"
+          className="btn bg-rose-600 text-white ml-2 rounded sm:mr-10"
           type="Submit"
           value="Submit"
         />
       </form>
       {reverse.map((item) => (
-        <div class="card mt-10 bg-base-100 shadow-xl">
-          <div class="card-body grid grid-cols-3 items-center">
+        <div className="card mt-10 bg-base-100 shadow-xl md:w-6/12 md:mx-auto w-half">
+          <div className="card-body grid grid-cols-3 items-center">
             <div>
               <input
                 onClick={() => handleCompelete(item.task)}
@@ -85,10 +89,10 @@ const navigateToDetails = (id) => {
             <div>
               <p>{item.task}</p>
             </div>
-            <div class="card-actions justify-end">
+            <div className="card-actions justify-end">
               <button
                 onClick={() => navigateToDetails(item._id)}
-                class="btn hover:bg-transparent hover:text-emerald-600 hover:border-2 hover:border-emerald-600 bg-emerald-500 text-white ml-2 rounded"
+                className="btn hover:bg-transparent hover:text-emerald-600 hover:border-2 hover:border-emerald-600 bg-emerald-500 text-white ml-2 rounded"
               >
                 Update
               </button>
@@ -101,3 +105,5 @@ const navigateToDetails = (id) => {
 };
 
 export default Home;
+
+
