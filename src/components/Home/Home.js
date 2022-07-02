@@ -70,7 +70,7 @@ const navigateToDetails = (id) => {
           {...register("task", { required: true })}
         />
         <input
-          className="btn bg-rose-600 text-white ml-2 rounded sm:mr-10"
+          className="btn bg-rose-600 border-0 text-white ml-2 rounded sm:mr-10"
           type="Submit"
           value="Submit"
         />
@@ -92,7 +92,7 @@ const navigateToDetails = (id) => {
             <div className="card-actions justify-end">
               <button
                 onClick={() => navigateToDetails(item._id)}
-                className="btn hover:bg-transparent hover:text-emerald-600 hover:border-2 hover:border-emerald-600 bg-emerald-500 text-white ml-2 rounded"
+                className="btn hover:bg-transparent hover:text-emerald-600 hover:border-2 hover:border-emerald-600 bg-emerald-500 text-white ml-2 rounded border-accent"
               >
                 Update
               </button>
